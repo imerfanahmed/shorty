@@ -31,3 +31,4 @@ Route::middleware([
 
 
 Route::get('/{short_url}', urlRedirector::class)->name('shorten.link');
+Route::get('/stats/{short_url}', [urlRedirector::class, 'stats'])->name('shorten.link.stats');

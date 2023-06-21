@@ -26,4 +26,11 @@ class urlRedirector extends Controller
         $click->save();
         return redirect()->away($link->long_url);
     }
+
+    public function stats($short_url)
+    {
+        $link = Link::where('short_url', $short_url)->first();
+        $total_clicks = $link->clicks()->count();
+        return view('stats', compact('link', 'total_clicks'));
+    }
 }

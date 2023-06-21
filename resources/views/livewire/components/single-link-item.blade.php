@@ -12,7 +12,7 @@
             </div>
 
             <div class="col-lg-4 mt-2">
-                <a class="btn btn-close-white btn-sm">
+                <a href="{{route('shorten.link.stats',$link->short_url)}}" class="btn btn-close-white btn-sm">
                                 <span class="tox-button--icon">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-antenna-bars-5" width="24" height="24"
@@ -48,7 +48,7 @@
                     QR Code
                 </a>
 
-                <a class="btn btn-sm btn-close-white">
+                <a class="btn btn-sm btn-close-white" onclick="copyToClipboard()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard" width="24"
                          height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                          stroke-linecap="round" stroke-linejoin="round">
@@ -123,3 +123,12 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function copyToClipboard() {
+            navigator.clipboard.writeText("{{config('app.url') . $link->short_url }}");
+            alert("Text copied to clipboard");
+        }
+    </script>
+@endpush
