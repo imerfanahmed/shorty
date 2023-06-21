@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Click;
 use App\Models\Link;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('layouts.app');
-//});
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::middleware([
     'auth:sanctum',
@@ -31,11 +32,21 @@ Route::middleware([
 
 
 Route::get('/{short_url}', function ($short_url) {
+    $link = Link::where('short_url', $short_url)->first();
+
+    if (!$link) {
+        return redirect('/');
+    }
     //user agent
     $user_agent = Request::header('User-Agent');
     //ip address
     $ip_address = Request::ip();
     //get the link
-    $link = Link::where('short_url', $short_url)->firstOrFail();
+
+//    $click = new Click();
+//    $click->user_agent = $user_agent;
+//    $click->ip_address = $ip_address;
+//    $click->link_id = $link->id;
+
     return redirect()->away($link->long_url);
 })->name('shorten.link');

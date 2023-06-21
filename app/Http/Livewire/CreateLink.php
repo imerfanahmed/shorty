@@ -25,7 +25,6 @@ class CreateLink extends Component
         $link->short_url = $this->short_url;
         $link->user_id = auth()->user()->id;
         $link->save();
-        dd($link);
 
         $this->emit('shortUrlGenerated');
     }
