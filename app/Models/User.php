@@ -47,6 +47,22 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @property string|null $github_id
+ * @property string|null $github_token
+ * @property string|null $github_refresh_token
+ * @property string|null $provider_id
+ * @property string|null $avatar
+ * @property string|null $provider
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Link> $links
+ * @property-read int|null $links_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereGithubId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereGithubRefreshToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereGithubToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereProvider($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereProviderId($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable

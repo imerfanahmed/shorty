@@ -34,7 +34,8 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                       href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
@@ -43,6 +44,23 @@
                     {{ __('Log in') }}
                 </x-button>
             </div>
+
+            {{--            Login with github--}}
+            <div class="flex items-center justify-end mt-4">
+                <a class="btn" href="{{ url('login/github')}}"
+                   style="background: black; color: #ffffff; padding: 10px; width: 100%; text-align: center; display: block; border-radius:3px;">
+                    Login with Github
+                </a>
+            </div>
+
+            {{--            Login with google--}}
+            <div class="flex items-center justify-end mt-4">
+                <a class="btn"
+                   style="background: #d4462f; color: #ffffff; padding: 10px; width: 100%; text-align: center; display: block; border-radius:3px;">
+                    Login with Google
+                </a>
+            </div>
         </form>
+
     </x-authentication-card>
 </x-guest-layout>

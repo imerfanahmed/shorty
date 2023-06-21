@@ -2,7 +2,9 @@
 
 
 use App\Http\Controllers\urlRedirector;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,16 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+//Google
+Route::get('/login/google', [\App\Http\Controllers\socialLoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/login/google/callback', [\App\Http\Controllers\socialLoginController::class, 'handleGoogleCallback']);
+//Facebook
+Route::get('/login/facebook', [\App\Http\Controllers\socialLoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('/login/facebook/callback', [\App\Http\Controllers\socialLoginController::class, 'handleFacebookCallback']);
+
+Route::get('/login/github', [\App\Http\Controllers\socialLoginController::class, 'redirectToGithub'])->name('login.github');
+
+Route::get('/login/github/callback', [\App\Http\Controllers\socialLoginController::class, 'handleGithubCallback'])->name('login.github.callback');
 
 
 Route::get('/{short_url}', urlRedirector::class)->name('shorten.link');

@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereShortUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Link whereUserId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Click> $clicks
+ * @property-read int|null $clicks_count
  * @mixin \Eloquent
  */
 class Link extends Model
