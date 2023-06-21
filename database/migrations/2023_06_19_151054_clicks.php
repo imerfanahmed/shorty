@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('link_id');
             $table->string('ip_address');
             $table->string('user_agent');
-            $table->string('referer');
+            $table->string('referer')->nullable();
             $table->string('country');
             $table->string('city');
             $table->timestamps();

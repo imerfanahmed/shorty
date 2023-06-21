@@ -1,14 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="container">
-            <div class="">
-                @livewire('create-link')
+            <div class="row">
+                <div class="col-lg-5">
+                    @livewire('create-link')
+                </div>
+                <div class="col-lg-7">
+                    @livewire('link-record')
+                </div>
             </div>
         </div>
     </div>
