@@ -4,11 +4,32 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="h1">Total Clicks: {{$total_clicks}}</div>
-                        </div>
                         <div class="card-body">
+                            <div class="d-flex">
+                                <h3 class="card-title h1">Total Clicks: {{$total_clicks}}</h3>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item active" href="#">Last 7 days</a>
+                                            <a class="dropdown-item" href="#">Last 30 days</a>
+                                            <a class="dropdown-item" href="#">Last 3 months</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="chart-tasks-overview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 my-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <h3 class="card-title h1">Devices</h3>
+                            </div>
+                            <div id="chart-demo-pie"></div>
                         </div>
                     </div>
                 </div>
@@ -45,8 +66,8 @@
                         opacity: 1,
                     },
                     series: [{
-                        name: "A",
-                        data: [44, 32, 48, 72, 60, 16, 44, 32, 78, 50, 68, 34, 26, 48, 72, 60, 84, 64, 74, 52, 62, 50, 32, 22]
+                        name: "Clicks",
+                        data: {!! json_encode($last_30_days) !!}
                     }],
                     tooltip: {
                         theme: 'dark'
@@ -70,7 +91,8 @@
                         axisBorder: {
                             show: false,
                         },
-                        categories: ['Sprint 1', 'Sprint 2', 'Sprint 3', 'Sprint 4', 'Sprint 5', 'Sprint 6', 'Sprint 7', 'Sprint 8', 'Sprint 9', 'Sprint 10', 'Sprint 11', 'Sprint 12', 'Sprint 13', 'Sprint 14', 'Sprint 15', 'Sprint 16', 'Sprint 17', 'Sprint 18', 'Sprint 19', 'Sprint 20', 'Sprint 21', 'Sprint 22', 'Sprint 23', 'Sprint 24'],
+                        //last 24 hours
+                        categories:{!! json_encode($last_30_days_column) !!}
                     },
                     yaxis: {
                         labels: {
@@ -80,6 +102,53 @@
                     colors: [tabler.getColor("primary")],
                     legend: {
                         show: false,
+                    },
+                })).render();
+            });
+            // @formatter:on
+        </script>
+
+
+        <script>
+            // @formatter:off
+            document.addEventListener("DOMContentLoaded", function () {
+                window.ApexCharts && (new ApexCharts(document.getElementById('chart-demo-pie'), {
+                    chart: {
+                        type: "donut",
+                        fontFamily: 'inherit',
+                        height: 500,
+                        sparkline: {
+                            enabled: true
+                        },
+                        animations: {
+                            enabled: false
+                        },
+                    },
+                    fill: {
+                        opacity: 1,
+                    },
+                    series: {!! json_encode($devices) !!},
+                    labels: ['Desktop', 'Tablet', 'Mobile', 'Other'],
+                    grid: {
+                        strokeDashArray: 4,
+                    },
+                    colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor("primary", 0.6), tabler.getColor("gray-300")],
+                    legend: {
+                        show: true,
+                        position: 'bottom',
+                        offsetY: 12,
+                        markers: {
+                            width: 10,
+                            height: 10,
+                            radius: 100,
+                        },
+                        itemMargin: {
+                            horizontal: 8,
+                            vertical: 8
+                        },
+                    },
+                    tooltip: {
+                        fillSeriesColor: false
                     },
                 })).render();
             });

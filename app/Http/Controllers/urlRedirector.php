@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Click;
 use App\Models\Link;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class urlRedirector extends Controller
@@ -31,6 +32,29 @@ class urlRedirector extends Controller
     {
         $link = Link::where('short_url', $short_url)->first();
         $total_clicks = $link->clicks()->count();
-        return view('stats', compact('link', 'total_clicks'));
+        //stats for last 30 days
+        $last_30_days = [];
+        $last_30_days_column = [];
+        for ($i = 0; $i < 30; $i++) {
+            $date = Carbon::now()->subDays($i);
+            $clicks = $link->clicks()->whereDate('created_at', $date)->count();
+            array_push($last_30_days, $clicks);
+            array_push($last_30_days_column, $date->format('d M'));
+        }
+        $last_30_days = array_reverse($last_30_days);
+        $last_30_days_column = array_reverse($last_30_days_column);
+        //dd($last_30_days, $last_30_days_column);
+
+        //devices desktop, mobile, tablet,other
+        $devices = collect();
+        $devices['desktop'] = $link->clicks()->where('user_agent', 'like', '%Windows NT%')->orWhere('user_agent', 'like', '%Macintosh%')->count();
+        $devices['mobile'] = $link->clicks()->where('user_agent', 'like', '%Android%')->orWhere('user_agent', 'like', '%iPhone%')->orWhere('user_agent', 'like', '%iPad%')->count();
+        $devices['tablet'] = $link->clicks()->where('user_agent', 'like', '%iPad%')->count();
+        $devices['other'] = $total_clicks - $devices['desktop'] - $devices['mobile'] - $devices['tablet'];
+        $devices = $devices->values()->all();
+
+        //
+
+        return view('stats', compact('link', 'total_clicks', 'last_30_days', 'last_30_days_column', 'devices'));
     }
 }
