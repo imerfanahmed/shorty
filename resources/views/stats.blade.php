@@ -1,6 +1,18 @@
-<x-app-layout>
+<x-master>
     <div class="py-12">
         <div class="container">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url()->previous() }}" class="btn btn-close-white m-3">
+                    <i class="ti ti-arrow-narrow-left"></i>
+                    Back
+                </a>
+
+                <a href="{{config('app.url').$link->short_url}}" class="btn btn-primary m-3">
+
+                    {{config('app.url').$link->short_url}}
+                    <i class="ti ti-arrow-narrow-right"></i>
+                </a>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -30,6 +42,45 @@
                                 <h3 class="card-title h1">Devices</h3>
                             </div>
                             <div id="chart-demo-pie"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 my-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title h1">Locations</h3>
+                            <table class="table table-sm table-borderless">
+                                <thead>
+                                <tr>
+                                    <th>Countries</th>
+                                    <th class="text-end">Visitors</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($countries as $country)
+                                    <tr>
+                                        <td>
+                                            <div class="progressbg">
+                                                <div class="progress progressbg-progress">
+                                                    <div class="progress-bar bg-primary-lt"
+                                                         style="width: {{number_format($country->percentage,2)}}%"
+                                                         role="progressbar" aria-valuenow="82.54" aria-valuemin="0"
+                                                         aria-valuemax="100" aria-label="82.54% Complete">
+                                                        <span class="visually-hidden">{{number_format($country->percentage,2)}}% Complete</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progressbg-text">{{$country->country}}</div>
+                                            </div>
+                                        </td>
+                                        <td class="w-1 fw-bold text-end">{{$country->clicks}}</td>
+                                    </tr>
+
+                                @endforeach
+
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -155,4 +206,4 @@
             // @formatter:on
         </script>
     @endpush
-</x-app-layout>
+</x-master>

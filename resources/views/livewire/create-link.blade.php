@@ -24,6 +24,7 @@
                             <input type="url"
                                    class="form-control"
                                    placeholder="URL"
+                                   autocomplete="on"
                                    wire:model.lazy="url"/>
                             @error('url') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
@@ -38,7 +39,6 @@
                                 <input type="text"
                                        class="form-control"
                                        placeholder="github"
-                                       autocomplete="off"
                                        wire:model.lazy="short_url"
                                        wire:keydown.enter="createShortUrl"
                                 />
@@ -50,9 +50,7 @@
                     </div>
                     <button class="btn btn-primary">
                         Create
-                        <span class="tox-button--icon" wire:loading>
-                              <div class="spinner-border spinner-border-sm text-white ml-2" role="status"></div>
-                        </span>
+                        <x-loading/>
                     </button>
                 </form>
 

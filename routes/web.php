@@ -1,10 +1,8 @@
 <?php
 
-
+use App\Http\Controllers\socialLoginController;
 use App\Http\Controllers\urlRedirector;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +18,6 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -30,17 +27,18 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
 //Google
-Route::get('/login/google', [\App\Http\Controllers\socialLoginController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('/login/google/callback', [\App\Http\Controllers\socialLoginController::class, 'handleGoogleCallback']);
+Route::get('/login/google', [socialLoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/login/google/callback', [socialLoginController::class, 'handleGoogleCallback']);
 //Facebook
-Route::get('/login/facebook', [\App\Http\Controllers\socialLoginController::class, 'redirectToFacebook'])->name('login.facebook');
-Route::get('/login/facebook/callback', [\App\Http\Controllers\socialLoginController::class, 'handleFacebookCallback']);
+Route::get('/login/facebook', [socialLoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('/login/facebook/callback', [socialLoginController::class, 'handleFacebookCallback']);
 
-Route::get('/login/github', [\App\Http\Controllers\socialLoginController::class, 'redirectToGithub'])->name('login.github');
+Route::get('/login/github', [socialLoginController::class, 'redirectToGithub'])->name('login.github');
 
-Route::get('/login/github/callback', [\App\Http\Controllers\socialLoginController::class, 'handleGithubCallback'])->name('login.github.callback');
-
+Route::get('/login/github/callback', [socialLoginController::class, 'handleGithubCallback'])->name('login.github.callback');
 
 Route::get('/{short_url}', urlRedirector::class)->name('shorten.link');
 Route::get('/stats/{short_url}', [urlRedirector::class, 'stats'])->name('shorten.link.stats');

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-master>
     <div class="py-12">
         <div class="container">
             <div class="row">
@@ -11,4 +11,9 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+
+    @push('modals')
+        @livewire('modals.qr-code')
+    @endpush
+
+</x-master>

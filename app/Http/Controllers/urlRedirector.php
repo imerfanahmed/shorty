@@ -6,6 +6,7 @@ use App\Models\Click;
 use App\Models\Link;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Stevebauman\Location\Facades\Location;
 
 class urlRedirector extends Controller
 {
@@ -21,8 +22,8 @@ class urlRedirector extends Controller
         $click->user_agent = $request->header('User-Agent');
         $click->ip_address = $request->ip();
         $click->link_id = $link->id;
-        $click->country = "Bangladesh"; //TODO: country will develop latter;
-        $click->city = "Dhaka"; //TODO: city will develop latter;
+        $click->country = Location::get($request->ip()) ? Location::get($request->ip())->countryName : 'Unknown';
+        $click->city = Location::get($request->ip()) ? Location::get($request->ip())->cityName : 'Unknown';
         $click->referer = $request->header('referer');
         $click->save();
         return redirect()->away($link->long_url);
@@ -38,8 +39,8 @@ class urlRedirector extends Controller
         for ($i = 0; $i < 30; $i++) {
             $date = Carbon::now()->subDays($i);
             $clicks = $link->clicks()->whereDate('created_at', $date)->count();
-            array_push($last_30_days, $clicks);
-            array_push($last_30_days_column, $date->format('d M'));
+            $last_30_days[] = $clicks;
+            $last_30_days_column[] = $date->format('d M');
         }
         $last_30_days = array_reverse($last_30_days);
         $last_30_days_column = array_reverse($last_30_days_column);
@@ -53,8 +54,31 @@ class urlRedirector extends Controller
         $devices['other'] = $total_clicks - $devices['desktop'] - $devices['mobile'] - $devices['tablet'];
         $devices = $devices->values()->all();
 
-        //
+        //Countries with count of clicks
+        $countries = $link->clicks()
+            ->selectRaw('country, count(*) as clicks')
+            ->groupBy('country')
+            ->orderByDesc('clicks')
+            ->get();
 
-        return view('stats', compact('link', 'total_clicks', 'last_30_days', 'last_30_days_column', 'devices'));
+        //country percentage
+        $country_percentage = [];
+        foreach ($countries as $country) {
+            $country_percentage[$country->country] = round($country->clicks / $total_clicks * 100, 2);
+        }
+        $countries = $countries->take(10);
+        $countries = $countries->map(function ($country) use ($country_percentage) {
+            $country->percentage = $country_percentage[$country->country];
+            return $country;
+        });
+
+//        dd($countries);
+
+        return view('stats', compact('link',
+            'total_clicks',
+            'last_30_days',
+            'last_30_days_column',
+            'devices',
+            'countries'));
     }
 }

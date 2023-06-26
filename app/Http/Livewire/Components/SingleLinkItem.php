@@ -9,6 +9,11 @@ class SingleLinkItem extends Component
     public $link;
     public $clicks;
 
+    public function qrCodeModal(): void
+    {
+        $this->emit('qrModalOpen', $this->link->short_url);
+    }
+
     public function deleteLink()
     {
         $this->link->delete();
