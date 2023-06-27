@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $city
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Click newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Click newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Click query()
@@ -29,10 +30,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Click whereReferer($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Click whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Click whereUserAgent($value)
+ *
  * @mixin \Eloquent
  */
 class Click extends Model
 {
     protected $guarded = [];
+
     use HasFactory;
 }

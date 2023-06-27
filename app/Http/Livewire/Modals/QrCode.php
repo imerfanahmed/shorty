@@ -7,6 +7,7 @@ use Livewire\Component;
 class QrCode extends Component
 {
     public $short_url;
+
     protected $listeners = ['qrModalOpen'];
 
     public function qrModalOpen($short_url)

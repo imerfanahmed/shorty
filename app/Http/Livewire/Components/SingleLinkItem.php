@@ -7,6 +7,7 @@ use Livewire\Component;
 class SingleLinkItem extends Component
 {
     public $link;
+
     public $clicks;
 
     public function qrCodeModal(): void
@@ -24,6 +25,7 @@ class SingleLinkItem extends Component
     {
         //click count
         $this->clicks = $this->link->clicks()->count();
+
         return view('livewire.components.single-link-item');
     }
 }

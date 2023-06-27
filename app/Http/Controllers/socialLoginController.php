@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Auth;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
 class socialLoginController extends Controller
@@ -22,6 +21,7 @@ class socialLoginController extends Controller
         $user = Socialite::driver('google')->stateless()->user();
 
         $this->_registerorLoginUser($user);
+
         return redirect()->route('home');
     }
 
@@ -31,7 +31,7 @@ class socialLoginController extends Controller
     {
         //ray($data);
         $user = User::where('email', $data->email)->first();
-        if (!$user) {
+        if (! $user) {
             $user = new User();
             $user->name = $data->name;
             $user->email = $data->email;
@@ -58,6 +58,7 @@ class socialLoginController extends Controller
         $user = Socialite::driver('facebook')->stateless()->user();
 
         $this->_registerorLoginUser($user);
+
         return redirect()->route('home');
     }
 
@@ -73,6 +74,7 @@ class socialLoginController extends Controller
 
         $user = Socialite::driver('github')->user();
         $this->_registerorLoginUser($user);
+
         return redirect()->route('dashboard');
     }
 }

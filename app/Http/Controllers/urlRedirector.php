@@ -14,7 +14,7 @@ class urlRedirector extends Controller
     {
         $link = Link::where('short_url', $short_url)->first();
 
-        if (!$link) {
+        if (! $link) {
             return redirect('/');
         }
 
@@ -26,6 +26,7 @@ class urlRedirector extends Controller
         $click->city = Location::get($request->ip()) ? Location::get($request->ip())->cityName : 'Unknown';
         $click->referer = $request->header('referer');
         $click->save();
+
         return redirect()->away($link->long_url);
     }
 
@@ -69,10 +70,11 @@ class urlRedirector extends Controller
         $countries = $countries->take(10);
         $countries = $countries->map(function ($country) use ($country_percentage) {
             $country->percentage = $country_percentage[$country->country];
+
             return $country;
         });
 
-//        dd($countries);
+        //        dd($countries);
 
         return view('stats', compact('link',
             'total_clicks',

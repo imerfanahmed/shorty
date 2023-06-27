@@ -21,13 +21,12 @@ Route::get('/', function () {
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 });
-
 
 //Google
 Route::get('/login/google', [socialLoginController::class, 'redirectToGoogle'])->name('login.google');
